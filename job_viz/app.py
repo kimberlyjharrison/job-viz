@@ -4,42 +4,38 @@ import json
 from bson import json_util
 from flask_pymongo import PyMongo
 import os
-import scrape_jobs
+# import scrape_jobs
 
 conn = os.environ.get('MONGODB_URI')
 if not conn:
-   	conn = "mongodb://localhost:27017"
+   	conn = "mongodb://localhost:27017/job_search_db"
 
 app = Flask(__name__)
-app.config['MONGODB_URI'] = conn
 
-# conn = 'mongodb://localhost:27017'
-client = pymongo.MongoClient(conn)
-db = client.job_search_db
-collection = db.search_results
+app.config["MONGO_URI"] = conn
+mongo = PyMongo(app)
 
-#mongo = PyMongo(app, uri="mongodb://localhost:27017/job_search_db")
 
 @app.route('/')
 def index():
-	jobs = list(collection.find())
+	jobs = mongo.db.search_results.find()
 	return render_template('index.html', jobs=jobs)
 
 @app.route('/api')
 def json_api():
 	data = []
-	for x in collection.find():
+	for x in mongo.db.search_results.find():
 		x.pop('_id')
 		data.append(x)
 	return jsonify(data)
 
 @app.route('/<job_input>')
 def scraper(job_input):
-	jobs_data = scrape_jobs.scrapeIndeed(job_input)
-
-	for i in jobs_data:
-		i.pop('_id')
-
+	from scrape_jobs import scrapeIndeed
+	jobs_data = scrapeIndeed(job_input)
+	mongo.db.search_results.drop()
+	jobs = mongo.db.search_results
+	jobs.insert_many(jobs_data)
 	return redirect("/", code=302)
 
 if __name__ == '__main__':

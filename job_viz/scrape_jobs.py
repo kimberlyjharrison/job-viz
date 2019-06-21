@@ -5,7 +5,7 @@ import pandas as pd
 import time
 from splinter import Browser
 from splinter.exceptions import ElementDoesNotExist
-from uszipcode import SearchEngine
+#from uszipcode import SearchEngine
 from pymongo import MongoClient
 from flask_pymongo import PyMongo
 
@@ -68,18 +68,7 @@ def scrapeIndeed(job_title):
     scrapeSalary(num, salaries)
     scrapeLink(link_list)
 
-    # url2 = f'https://www.indeed.com/jobs?q={job_title}&limit=50'
-    # browser.visit(url2)
-    # html = browser.html
-    # soup2 = bs(html, 'html.parser')
     browser.quit()
-
-    # scrapeData('title', job_titles)
-    # scrapeData('company', company_names)
-    # scrapeData('location', locations)
-    # num = len(job_titles)
-    # scrapeSalary(num, salaries)
-    # scrapeLink(link_list)
 
 
     def hasZip(inputString):
@@ -94,34 +83,35 @@ def scrapeIndeed(job_title):
     for i in locations:
         loc_list.append(hasZip(i))
 
-    zip_list = []
+    #zip_list = []
     # for i in loc_list:
     #     getZip(i, zip_list)
 
-    def getCoord(str, coordList, cityList):
-        search = SearchEngine(simple_zipcode=True)
-        if str.isdigit():
-            try:
-                zipcode = search.by_zipcode(str)
-                coords = [zipcode.lat, zipcode.lng]
-                coordList.append(coords)
-                cityList.append(zipcode.post_office_city)
-            except:
-                coordList.append(["None", "None"])
-                cityList.append("None")
-                print(f"No Results Found for Zip {str}")
-        else:
-            coordList.append(["None", "None"])
-            cityList.append(str)
+    # def getCoord(str, coordList, cityList):
+    #     search = SearchEngine(simple_zipcode=True)
+    #     if str.isdigit():
+    #         try:
+    #             zipcode = search.by_zipcode(str)
+    #             coords = [zipcode.lat, zipcode.lng]
+    #             coordList.append(coords)
+    #             cityList.append(zipcode.post_office_city)
+    #         except:
+    #             coordList.append(["None", "None"])
+    #             cityList.append("None")
+    #             print(f"No Results Found for Zip {str}")
+    #     else:
+    #         coordList.append(["None", "None"])
+    #         cityList.append(str)
     
-    search_limit = 50
+    
 
-    coord_list = []
-    city_list = []
+    # coord_list = []
+    # city_list = []
 
     # for i in zip_list[0:search_limit]:
     #     getCoord(i, coord_list, city_list)
 
+    search_limit = 50
     job_list = []
 
     for i in range(search_limit):
@@ -139,15 +129,15 @@ def scrapeIndeed(job_title):
     #     if "None" in str(i["Coordinates"]):
     #         job_list.remove(i)
 
-    conn = 'mongodb://localhost:27017'
-    client = MongoClient(conn)
-    db = client['job_search_db']
+    # conn = 'mongodb://localhost:27017'
+    # client = MongoClient(conn)
+    # db = client['job_search_db']
 
-    db.search_results.drop()
+    # db.search_results.drop()
 
-    col = db['search_results']
+    # col = db['search_results']
 
-    for x in job_list:
-        col.insert_one(x)
+    # for x in job_list:
+    #     col.insert_one(x)
     
     return(job_list)
