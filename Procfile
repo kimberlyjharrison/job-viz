@@ -1,0 +1,1 @@
+web: gunicorn job_viz.app:app
