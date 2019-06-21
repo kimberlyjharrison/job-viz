@@ -26,7 +26,7 @@ def index():
 	return render_template('index.html', jobs=jobs)
 
 @app.route('/api')
-def json():
+def json_api():
 	data = []
 	for x in collection.find():
 		x.pop('_id')
@@ -40,7 +40,6 @@ def scraper(job_input):
 	for i in jobs_data:
 		i.pop('_id')
 
-	jobs = list(collection.find())
 	return redirect("/", code=302)
 
 if __name__ == '__main__':
