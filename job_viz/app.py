@@ -11,6 +11,7 @@ import pandas as pd
 import time
 from splinter import Browser
 from splinter.exceptions import ElementDoesNotExist
+from selenium import webdriver
 from pymongo import MongoClient
 
 
@@ -48,6 +49,8 @@ def scraper(job_input):
 		salaries = []
 		link_list = []
 
+		
+
 		url = f'https://www.indeed.com/jobs?q={job_title}&limit=50'
 
 		
@@ -84,6 +87,7 @@ def scraper(job_input):
 				except:
 					zipList.append("None")
 					print(f"No City, State info found for {str}")
+
 
 		executable_path = {'executable_path': '/usr/local/bin/chromedriver'}
 		browser = Browser('chrome', **executable_path, headless=True)
