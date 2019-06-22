@@ -89,10 +89,22 @@ def scraper(job_input):
 					print(f"No City, State info found for {str}")
 
 
-		executable_path = {'executable_path': '/usr/local/bin/chromedriver'}
-		browser = Browser('chrome', **executable_path, headless=True)
-		browser.visit(url)
-		html = browser.html
+		CHROMEDRIVER_PATH = "/app/.chromedriver/bin/chromedriver"
+		
+		chrome_options = webdriver.ChromeOptions()
+		
+		chrome_options.binary_location = '.apt/usr/bin/google-chrome-stable'
+		chrome_options.add_argument('--disable-gpu')
+		chrome_options.add_argument('--no-sandbox')
+		chrome_options.add_argument('headless')
+		
+		browser = webdriver.Chrome(executable_path=CHROMEDRIVER_PATH, chrome_options=chrome_options)
+		# executable_path = {'executable_path': '/usr/local/bin/chromedriver'}
+		# browser = Browser('chrome', **executable_path, headless=True)
+		#browser.visit(url)
+		browser.get(url)
+		# html = browser.html
+		html = browser.page_source
 		soup = bs(html, 'html.parser')
 
 		scrapeData('title', job_titles)
