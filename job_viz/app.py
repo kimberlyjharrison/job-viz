@@ -138,7 +138,7 @@ def search_and_map(job_title):
 	coord_list = []
 	city_list = []
 
-	for i in zip_list[0:search_limit]:
+	for i in zip_list[0:10]:
 		getCoord(i, coord_list, city_list)
 
 	job_list = []
