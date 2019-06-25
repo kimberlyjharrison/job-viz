@@ -103,6 +103,8 @@ def search_and_map(job_title):
 	scrapeSalary(num, salaries)
 	scrapeLink(link_list)
 
+	print("scraping complete")
+
 	def hasZip(inputString):
 		if any(char.isdigit() for char in inputString):
 			return "".join(filter(lambda x: x.isdigit(), inputString))
@@ -140,6 +142,8 @@ def search_and_map(job_title):
 
 	for i in zip_list[0:10]:
 		getCoord(i, coord_list, city_list)
+
+	print('coordinates retreived')
 
 	job_list = []
 
