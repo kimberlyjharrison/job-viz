@@ -1,64 +1,56 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Job Search Results</title>
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.3/dist/leaflet.css"
-  integrity="sha512-Rksm5RenBEKSKFjgI3a41vrjkw4EVPlJ3+OiI65vTjIdo9brlAacEuKOiQ5OFh7cOI1bkDwLqdLw3Zg0cRJAAQ=="
-  crossorigin=""/>
-  <script src="https://unpkg.com/leaflet@1.3.3/dist/leaflet.js"
-  integrity="sha512-tAGcCfR4Sc5ZP5ZoVz0quoZDYX5aCtEm/eu1KhSLj2c9eFrylXZknQYmxUssFaVJKvvc0dJQixhGjG2yXWiV9Q=="
-  crossorigin=""></script>
+  <meta charset="utf-8">
+  <title>Job Map</title>
 
+  <!-- Leaflet CSS & JS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.3/dist/leaflet.css" integrity="sha512-Rksm5RenBEKSKFjgI3a41vrjkw4EVPlJ3+OiI65vTjIdo9brlAacEuKOiQ5OFh7cOI1bkDwLqdLw3Zg0cRJAAQ==" crossorigin="" />
+  <script src="https://unpkg.com/leaflet@1.3.3/dist/leaflet.js" integrity="sha512-tAGcCfR4Sc5ZP5ZoVz0quoZDYX5aCtEm/eu1KhSLj2c9eFrylXZknQYmxUssFaVJKvvc0dJQixhGjG2yXWiV9Q==" crossorigin=""></script>
   <script src="https://d3js.org/d3.v4.min.js"></script>
+  <script src="{{url_for('static', filename='js/leaflet-heat.js')}}"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
 
-  
-  <script src="{{url_for('static', filename='js/logic.js')}}"></script>
-  <script src="{{url_for('static', filename='js/config.js')}}"></script>
-  
-  <link rel="stylesheet" href="{{url_for('static', filename='js/logic.js')}}">
-  <link rel="stylesheet" href="{{url_for('static', filename='js/config.js')}}">
-
+  <!-- Our CSS -->
+  <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='css/style.css')}}">
 
 
 </head>
 
 <body>
 
-
-
-    <!-- The div where we will inject our map -->
-
-  <div class='col-md-8' id="map"></div>
+    <nav class=“navbar”>
+    <p align='center'><h1>Job Posting Visualization With Indeed.com</h1></p>
 
 
 
-    <div class="container text-center">
-      <h1 class="jumbotron">Job Listings</h1>
-      <div>
-        <!-- write a for loop that lists out your data and accesses the values using dot notation. -->
-          {% for item in jobs %}
-          <div class="col-lg-4">
-              <div class="card" style="width: 20rem;">
-                  <div class="card-body">
-                    <h4 class="card-title card-link">{{ item.Title }}</h4>
-                    <h6 class="card-subtitle mb-2 text-muted">Company: {{ item.Company }}</h6>
-                    <h6 class="card-subtitle mb-2 text-muted">Location: {{ item.Locations }}</h6>
-                    <h6 class="card-subtitle mb-2 text-muted">Salary: {{ item.Salary_Info }}</h6>
-                    <a href="{{ item.Link }}" class="card-link">Link to Post</a>
-                  </div>
-                </div>
-            </div>
-            {% endfor %}
+    <input id="inputText" placeholder='Enter Search Term'>
+    <button id="searchJobsbutton" type="button" onclick="enterSearch()">Scrape For New Job Posts</button>
+    <button id="mapResultsButton" type="button" onclick="mapResults()">Map Job Search</button>
 
-      </div>
-    </div>
 
+      
+      
+      
+      
+      <p>All Information is for reference only.</p>
+    </nav>
+
+
+  <div id='scrapeText'></div>
+  <div id='mapText'></div>
+  <div id="map"></div>
+  <div id='mapholder'></div>
+
+
+  <!-- API key -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+  <script src="{{url_for('static', filename='js/config.js')}}"></script>
+  <script src="{{url_for('static', filename='js/zillow.js')}}"></script>
   <script src="{{url_for('static', filename='js/logic.js')}}"></script>
-  </body>
 
+
+</body>
 </html>
+
